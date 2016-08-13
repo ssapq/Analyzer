@@ -21,10 +21,10 @@ public class FilesystemConfiguration implements Configuration {
 	/*
 	 * 分词器默认字典路径 
 	 */
-	private static final String PATH_DIC_MAIN = "/opt/solr-6.0.1/contrib/analysis-extras/conf/main2012.dic";
-	private static final String PATH_DIC_QUANTIFIER = "/opt/solr-6.0.1/contrib/analysis-extras/conf/quantifier.dic";
-	private static final String PATH_EXT_DIC = "/opt/solr-6.0.1/contrib/analysis-extras/conf/ext.dic";
-	private static final String PATH_EXT_DIC_STOP="/opt/solr-6.0.1/contrib/analysis-extras/conf/stopword.dic";
+	private static final String PATH_DIC_MAIN = "conf/main2012.dic";
+	private static final String PATH_DIC_QUANTIFIER = "conf/quantifier.dic";
+	private static final String PATH_EXT_DIC = "conf/ext.dic";
+	private static final String PATH_EXT_DIC_STOP="conf/stopword.dic";
 
 //	private static final String PATH_DIC_MAIN = "D:/develop/workspace/analyzer-ik/src/main/resources/conf/main2012.dic";
 //	private static final String PATH_DIC_QUANTIFIER = "D:/develop/workspace/analyzer-ik/src/main/resources/conf/quantifier.dic";
