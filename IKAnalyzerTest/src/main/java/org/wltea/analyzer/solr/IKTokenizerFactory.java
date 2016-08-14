@@ -3,20 +3,39 @@ package org.wltea.analyzer.solr;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeFactory;
+import org.wltea.analyzer.lucene.IKTokenizer;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
  * Created by ss on 2016/8/14.
  */
 public class IKTokenizerFactory  extends TokenizerFactory {
+    /* 线程内共享 */
+    private ThreadLocal<IKTokenizer> tokenizerLocal = new ThreadLocal<IKTokenizer>();
 
-    protected IKTokenizerFactory(Map<String, String> args) {
+    public IKTokenizerFactory(Map<String, String> args){
         super(args);
     }
 
     @Override
-    public Tokenizer create(AttributeFactory factory) {
-        return null;
+    public Tokenizer create(AttributeFactory factory){
+        System.out.println("创建分词器");
+        IKTokenizer tokenizer = tokenizerLocal.get();
+        if(tokenizer == null) {
+            tokenizer = newTokenizer();
+        }
+        return tokenizer;
+    }
+
+    /**
+     * 创建分词器
+     * @return
+     */
+    private IKTokenizer newTokenizer(){
+        IKTokenizer tokenizer = new IKTokenizer(false);
+        tokenizerLocal.set(tokenizer);
+        return tokenizer;
     }
 }
