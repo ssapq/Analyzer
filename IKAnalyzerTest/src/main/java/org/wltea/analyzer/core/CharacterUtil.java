@@ -63,7 +63,7 @@ class CharacterUtil {
 					|| ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A){
 				//目前已知的中文字符UTF-8集合
 				return CHAR_CHINESE;
-
+				
 			}else if(ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS //全角数字字符和日韩字符
 					//韩文字符集
 					|| ub == Character.UnicodeBlock.HANGUL_SYLLABLES 
@@ -75,11 +75,6 @@ class CharacterUtil {
 					|| ub == Character.UnicodeBlock.KATAKANA_PHONETIC_EXTENSIONS){
 				return CHAR_OTHER_CJK;
 				
-			}else if(ub == Character.UnicodeBlock.ARABIC
-					|| ub==Character.UnicodeBlock.ARABIC_PRESENTATION_FORMS_A
-					|| ub == Character.UnicodeBlock.ARABIC_PRESENTATION_FORMS_B
-					|| ub == Character.UnicodeBlock.ARABIC_SUPPLEMENT){
-				return CHAR_ENGLISH;
 			}
 		}
 		//其他的不做处理的字符

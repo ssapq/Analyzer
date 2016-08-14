@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.wltea.analyzer.cfg.Configuration;
-import org.wltea.analyzer.cfg.FilesystemConfiguration;
+import org.wltea.analyzer.cfg.DefaultConfig;
 import org.wltea.analyzer.dic.Dictionary;
 
 /**
@@ -60,7 +60,7 @@ public final class IKSegmenter {
 	 */
 	public IKSegmenter(Reader input , boolean useSmart){
 		this.input = input;
-		this.cfg = FilesystemConfiguration.getInstance();
+		this.cfg = DefaultConfig.getInstance();
 		this.cfg.setUseSmart(useSmart);
 		this.init();
 	}

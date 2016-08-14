@@ -30,11 +30,9 @@ import java.io.StringReader;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
-import org.apache.lucene.util.Version;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 /**
@@ -46,17 +44,15 @@ public class IKAnalzyerDemo {
 	
 	public static void main(String[] args){
 		//构建IK分词器，使用smart分词模式
-		Analyzer analyzer = new IKAnalyzer();
+		Analyzer analyzer = new IKAnalyzer(true);
 		
 		//获取Lucene的TokenStream对象
 	    TokenStream ts = null;
 		try {
-			ts = analyzer.tokenStream("myfield", new StringReader("我爱北京天安门"));
-//			ts = analyzer.tokenStream("myfield",new StringReader("IKAnalyer can analysis english text too！"));
-//			ts = analyzer.tokenStream("myfield",new StringReader("كورېيەدە مېرس بىلەن 36 ئادەم قازا قىلدى"));
+			ts = analyzer.tokenStream("myfield", new StringReader("这是一个中文分词的例子，你可以直接运行它！IKAnalyer can analysis english text too"));
 			//获取词元位置属性
 		    OffsetAttribute  offset = ts.addAttribute(OffsetAttribute.class); 
-		    //获取词元文本属性s
+		    //获取词元文本属性
 		    CharTermAttribute term = ts.addAttribute(CharTermAttribute.class);
 		    //获取词元文本属性
 		    TypeAttribute type = ts.addAttribute(TypeAttribute.class);

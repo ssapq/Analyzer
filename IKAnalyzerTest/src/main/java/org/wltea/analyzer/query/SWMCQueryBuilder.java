@@ -86,6 +86,7 @@ public class SWMCQueryBuilder {
 	/**
 	 * 根据分词结果生成SWMC搜索
 	 * @param fieldName
+	 * @param pathOption
 	 * @param quickMode
 	 * @return
 	 */
@@ -123,7 +124,7 @@ public class SWMCQueryBuilder {
 		}
 
 		//借助lucene queryparser 生成SWMC Query
-		QueryParser qp = new QueryParser( fieldName, new StandardAnalyzer());
+		QueryParser qp = new QueryParser(Version.LUCENE_40, fieldName, new StandardAnalyzer(Version.LUCENE_40));
 		qp.setDefaultOperator(QueryParser.AND_OPERATOR);
 		qp.setAutoGeneratePhraseQueries(true);
 		
