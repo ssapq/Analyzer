@@ -27,7 +27,9 @@ package org.wltea.analyzer.lucene;
 import java.io.Reader;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
+import org.wltea.analyzer.solr.SynonymFilter;
 
 /**
  * IK分词器，Lucene Analyzer接口实现
@@ -70,6 +72,8 @@ public final class IKAnalyzer extends Analyzer{
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName) {
 		Tokenizer _IKTokenizer = new IKTokenizer(this.useSmart());
-		return new TokenStreamComponents(_IKTokenizer);
+		TokenStream _SynonymFilter = new SynonymFilter(_IKTokenizer);
+		return new TokenStreamComponents(_IKTokenizer, _SynonymFilter);
 	}
+
 }
