@@ -12,6 +12,17 @@ import java.util.Map;
  * Created by ss on 2016/8/14.
  */
 public class IKTokenizerFactory  extends TokenizerFactory {
+    private boolean useSmart;
+
+    public boolean useSmart() {
+        return useSmart;
+    }
+
+    public void setUseSmart(boolean useSmart) {
+        this.useSmart = useSmart;
+    }
+
+
     /* 线程内共享 */
     private ThreadLocal<IKTokenizer> tokenizerLocal = new ThreadLocal<IKTokenizer>();
 
@@ -34,7 +45,7 @@ public class IKTokenizerFactory  extends TokenizerFactory {
      * @return
      */
     private IKTokenizer newTokenizer(){
-        IKTokenizer tokenizer = new IKTokenizer(false);
+        IKTokenizer tokenizer = new IKTokenizer(this.useSmart);
         tokenizerLocal.set(tokenizer);
         return tokenizer;
     }

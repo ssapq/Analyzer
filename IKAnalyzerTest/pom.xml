@@ -5,7 +5,10 @@
   <groupId>com.ss.analyzer</groupId>
   <artifactId>IKAnalyzer</artifactId>
   <version>5.5.1</version>
-  <packaging>jar</packaging>
+    <modules>
+        <module>../SynonymAnalyzer</module>
+    </modules>
+    <packaging>pom</packaging>
 
   <name>IKAnalyzer</name>
   <url>http://maven.apache.org</url>

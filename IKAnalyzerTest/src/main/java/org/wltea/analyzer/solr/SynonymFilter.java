@@ -4,6 +4,7 @@ import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.apache.lucene.util.AttributeSource;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class SynonymFilter extends TokenFilter {
 
     private AttributeSource.State current;
     private Stack<String> synonymStack;
+    private final TypeAttribute typeAttribute = addAttribute(TypeAttribute.class);
     private final CharTermAttribute charTermAttribute;
     private final PositionIncrementAttribute positionIncrementAttribute;
 
@@ -32,6 +34,7 @@ public class SynonymFilter extends TokenFilter {
             restoreState(current);
             charTermAttribute.setEmpty();
             charTermAttribute.append(synonymStack.pop());
+            typeAttribute.setType("SYNONYM");
             positionIncrementAttribute.setPositionIncrement(0);
             return true;
         }
