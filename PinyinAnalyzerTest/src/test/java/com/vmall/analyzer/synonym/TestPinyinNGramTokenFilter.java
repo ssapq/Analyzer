@@ -1,6 +1,4 @@
-package com.ss.analyzer;
-
-import static org.junit.Assert.*;
+package com.vmall.analyzer.synonym;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -15,23 +13,24 @@ import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.liangbl.solr.analysis.PinyinTransformTokenFilter;
-import org.liangbl.solr.analysis.PinyinTransformTokenFilterFactory;
-
+import org.liangbl.solr.analysis.PinyinNGramTokenFilter;
+import org.liangbl.solr.analysis.PinyinNGramTokenFilterFactory;
 
 @SuppressWarnings("unused")
 @RunWith(com.carrotsearch.randomizedtesting.RandomizedRunner.class)
-public class TestPinyinTransformTokenFilter {
+public class TestPinyinNGramTokenFilter {
 
-	private PinyinTransformTokenFilter filter;
+	private PinyinNGramTokenFilter filter;
 
 	@Before
 	public void before() throws IOException {
 		Map<String, String> params = new HashMap<String, String>();
-		
+		params.put("minGramSize", "1");
+		params.put("maxGramSize", "20");
+
 		MockTokenizer tokenizer = new MockTokenizer();
-		tokenizer.setReader(new StringReader("华为P9 和平 重量 and 中国"))  ;
-		this.filter = (PinyinTransformTokenFilter) new PinyinTransformTokenFilterFactory(params).create(tokenizer);
+		tokenizer.setReader(new StringReader("zhongguoren shixi xuexi"));
+		this.filter = (PinyinNGramTokenFilter) new PinyinNGramTokenFilterFactory(params).create(tokenizer);
 	}
 
 	@Test
@@ -45,9 +44,8 @@ public class TestPinyinTransformTokenFilter {
 			position += increment;
 			OffsetAttribute offset = this.filter.getAttribute(OffsetAttribute.class);
 			TypeAttribute type = this.filter.getAttribute(TypeAttribute.class);
-			System.out.println(position + "[" + offset.startOffset() + "," + offset.endOffset() + "} (" + type.type() + ") " + token);
+			System.out.println(position + "[" + offset.startOffset() + "," + offset.endOffset() + "] (" + type.type() + ")" + token);
 		}
-		
-	}
 
+	}
 }
