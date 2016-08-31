@@ -72,9 +72,9 @@ public final class IKAnalyzer extends Analyzer{
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName) {
 		Tokenizer _IKTokenizer = new IKTokenizer(this.useSmart());
-//		TokenStream _SynonymFilter = new SynonymFilter(_IKTokenizer);
-//		return new TokenStreamComponents(_IKTokenizer, _SynonymFilter);
-		return new TokenStreamComponents(_IKTokenizer);
+		TokenStream _SynonymFilter = new SynonymFilter(_IKTokenizer);
+		return new TokenStreamComponents(_IKTokenizer, _SynonymFilter);
+//		return new TokenStreamComponents(_IKTokenizer);
 	}
 
 }
