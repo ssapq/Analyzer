@@ -42,6 +42,7 @@ public class SynonymFilter extends TokenFilter {
             return false;
         }
 
+
         if(this.fillSynonymWordStack()){
             current = captureState();
         }
