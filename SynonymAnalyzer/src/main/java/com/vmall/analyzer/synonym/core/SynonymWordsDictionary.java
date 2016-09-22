@@ -54,6 +54,26 @@ public class SynonymWordsDictionary {
     }
 
     /**
+     * 指示是否词库为空
+     * @return
+     */
+    public boolean isSynonyWordsLoadFinieshed() {
+        return  !synonymWords.isEmpty();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getWordList(String originalWord){
+        if(originalWord == null || originalWord.isEmpty()){
+            return null;
+        }
+
+        return synonymWords.get(originalWord);
+    }
+
+    /**
      * 增加词
      * @throws Exception
      */
@@ -66,13 +86,15 @@ public class SynonymWordsDictionary {
             return false;
         }
 
-        List<String> synonymList = synonymWords.get(standardWord);
-        if(synonymList == null){
-            synonymList = new ArrayList<String>();
-            synonymList.add(synonymWord);
-            synonymWords.put(standardWord,synonymList);
-        }else{
-            synonymList.add(synonymWord);
+        synchronized (synonymWords){
+            List<String> synonymList = synonymWords.get(standardWord);
+            if(synonymList == null){
+                synonymList = new ArrayList<String>();
+                synonymList.add(synonymWord);
+                synonymWords.put(standardWord,synonymList);
+            }else{
+                synonymList.add(synonymWord);
+            }
         }
         return true;
    }
@@ -90,13 +112,15 @@ public class SynonymWordsDictionary {
             return false;
         }
 
-        List<String> synonymList = synonymWords.get(standardWord);
-        if(synonymList == null){
-            synonymList = new ArrayList<String>();
-            synonymList.addAll(synonymWordList);
-            synonymWords.put(standardWord,synonymList);
-        }else{
-            synonymList.addAll(synonymWordList);
+        synchronized (synonymWords) {
+            List<String> synonymList = synonymWords.get(standardWord);
+            if (synonymList == null) {
+                synonymList = new ArrayList<String>();
+                synonymList.addAll(synonymWordList);
+                synonymWords.put(standardWord, synonymList);
+            } else {
+                synonymList.addAll(synonymWordList);
+            }
         }
         return true;
     }
@@ -114,11 +138,13 @@ public class SynonymWordsDictionary {
             return false;
         }
 
-        List<String> synonymList = synonymWords.get(standardWord);
-        if(synonymList == null || synonymList.isEmpty()){
-            return false;
-        }else{
-            synonymList.remove(synonymWord);
+        synchronized (synonymWords) {
+            List<String> synonymList = synonymWords.get(standardWord);
+            if (synonymList == null || synonymList.isEmpty()) {
+                return false;
+            } else {
+                synonymList.remove(synonymWord);
+            }
         }
         return true;
     }
@@ -136,11 +162,13 @@ public class SynonymWordsDictionary {
             return false;
         }
 
-        List<String> synonymList = synonymWords.get(standardWord);
-        if(synonymList == null || synonymList.isEmpty()){
-            return false;
-        }else{
-            synonymList.removeAll(synonymWordList);
+        synchronized (synonymWords) {
+            List<String> synonymList = synonymWords.get(standardWord);
+            if (synonymList == null || synonymList.isEmpty()) {
+                return false;
+            } else {
+                synonymList.removeAll(synonymWordList);
+            }
         }
         return true;
     }
@@ -162,12 +190,14 @@ public class SynonymWordsDictionary {
             return false;
         }
 
-        List<String> synonymList = synonymWords.get(standardWord);
-        if(synonymList == null || synonymList.isEmpty()){
-            return false;
-        }else{
-            synonymList.remove(oldWord);
-            synonymList.add(newWord);
+        synchronized (synonymWords) {
+            List<String> synonymList = synonymWords.get(standardWord);
+            if (synonymList == null || synonymList.isEmpty()) {
+                return false;
+            } else {
+                synonymList.remove(oldWord);
+                synonymList.add(newWord);
+            }
         }
         return true;
     }

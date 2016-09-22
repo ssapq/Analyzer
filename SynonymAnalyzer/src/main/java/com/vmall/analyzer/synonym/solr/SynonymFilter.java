@@ -1,5 +1,7 @@
 package com.vmall.analyzer.synonym.solr;
 
+import com.vmall.analyzer.synonym.core.SynonymWordsDictionary;
+import com.vmall.analyzer.synonym.loader.DynamicSynonymWordsLoader;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -71,21 +73,19 @@ public class SynonymFilter extends TokenFilter {
     }
 
     private void synonymWordEngine(String term){
-        Map<String,List<String>> synonyWordMap = new HashMap<String, List<String>>();
-        List<String> synonyWordList = new ArrayList<String>();
+        List<String> resultList = null;
+        try {
 
-        synonyWordList.add("贴膜");
-        synonyWordList.add("钢化膜");
-        synonyWordList.add("透明膜");
-        synonyWordList.add("钢化膜");
+            if(!SynonymWordsDictionary.getSingleton().isSynonyWordsLoadFinieshed()){
+                DynamicSynonymWordsLoader.getSingleton().loadSynonymWords();
+            }
 
-        synonyWordMap.put("手机膜",synonyWordList);
-        synonyWordMap.put("钢化膜",synonyWordList);
-        synonyWordMap.put("透明膜",synonyWordList);
-
-        List<String> resultList = synonyWordMap.get(term.trim().toLowerCase());
-        if(resultList == null || resultList.isEmpty()){
-            return;
+            resultList = SynonymWordsDictionary.getSingleton().getWordList(term.trim().toLowerCase());
+            if (resultList == null || resultList.isEmpty()) {
+                return;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         for(String synonyWord : resultList){

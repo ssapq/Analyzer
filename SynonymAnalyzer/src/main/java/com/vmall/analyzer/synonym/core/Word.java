@@ -5,8 +5,22 @@ package com.vmall.analyzer.synonym.core;
  * 词组
  */
 public class Word {
+    private String originalWord;
+    private String synonyWord;
 
-    private String content;
+    public String getOriginalWord() {
+        return originalWord;
+    }
 
+    public void setOriginalWord(String originalWord) {
+        this.originalWord = originalWord;
+    }
 
+    public String getSynonyWord() {
+        return synonyWord;
+    }
+
+    public void setSynonyWord(String synonyWord) {
+        this.synonyWord = synonyWord;
+    }
 }
