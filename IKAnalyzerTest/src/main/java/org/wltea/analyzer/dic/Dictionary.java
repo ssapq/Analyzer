@@ -29,10 +29,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.wltea.analyzer.cfg.Configuration;
+import org.wltea.analyzer.db.KeywordDBDao;
+import org.wltea.analyzer.job.JobBuilder;
 
 /**
  * 词典管理类,单子模式
@@ -69,6 +72,8 @@ public class Dictionary {
 		this.loadMainDict();
 		this.loadStopWordDict();
 		this.loadQuantifierDict();
+		this.loadExtDictFromDB();
+		JobBuilder.getSingleton().startJob();
 	}
 	
 	/**
@@ -226,7 +231,41 @@ public class Dictionary {
 		}
 		//加载扩展词典
 		this.loadExtDict();
-	}	
+	}
+
+
+	/**
+	 * 从数据库加载词库
+	 */
+	public void loadExtDictFromDB(){
+		List<String> keywordList = new ArrayList<String>();
+		KeywordDBDao keywordDBDao = new KeywordDBDao();
+		System.out.println("从数据库加载扩展词典 start" );
+		try{
+			keywordList = keywordDBDao.getKeywords();
+			if(keywordList == null || keywordList.isEmpty()){
+				return;
+			}
+
+			for(String keyword : keywordList){
+				if(keyword == null || keyword.isEmpty()){
+					continue;
+				}
+
+				String[] keywordArrays = keyword.split(";");
+				for(String theWord : keywordArrays){
+					if(theWord == null || theWord.isEmpty()){
+						continue;
+					}
+					_MainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			System.out.println("从数据库加载扩展词典 end" );
+		}
+	}
 	
 	/**
 	 * 加载用户配置的扩展词典到主词库表
@@ -273,7 +312,7 @@ public class Dictionary {
 			}
 		}		
 	}
-	
+
 	/**
 	 * 加载用户扩展的停止词词典
 	 */

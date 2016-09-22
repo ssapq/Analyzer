@@ -1,5 +1,8 @@
 package org.wltea.analyzer.dic;
 
+import org.wltea.analyzer.db.KeywordDBDao;
+import org.wltea.analyzer.util.JdbcUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +58,6 @@ public class DynmicDictinoaryLoader {
 
     /**
      * 删除新词
-     * @param deleteWords
      * @return
      * @throws Exception
      */
@@ -112,4 +114,5 @@ public class DynmicDictinoaryLoader {
 
         return true;
     }
+
 }

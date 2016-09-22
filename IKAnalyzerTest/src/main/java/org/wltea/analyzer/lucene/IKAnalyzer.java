@@ -24,12 +24,10 @@
  */
 package org.wltea.analyzer.lucene;
 
-import java.io.Reader;
-
+import com.vmall.analyzer.synonym.solr.SynonymFilter;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
-import org.wltea.analyzer.solr.SynonymFilter;
 
 /**
  * IK分词器，Lucene Analyzer接口实现

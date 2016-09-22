@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.ss.analyzer</groupId>
+  <groupId>com.huawei.vmall.analyzer</groupId>
   <artifactId>IKAnalyzer</artifactId>
   <version>5.5.1</version>
   <packaging>jar</packaging>
@@ -13,8 +13,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lucene.version>5.5.0</lucene.version>
-    <com.huawei.mqframe.version>0.0.2</com.huawei.mqframe.version>
-    <kafka.version>0.8.2.0</kafka.version>
+    <quartz.version>2.2.1</quartz.version>
+    <mysql.version>5.1.18</mysql.version>
   </properties>
   <dependencies>
     <dependency>
@@ -104,18 +104,27 @@
       <version>2.2</version>
     </dependency>
 
-    <!-- huawei jar start -->
     <dependency>
-      <groupId>com.huawei.mqframe</groupId>
-      <artifactId>mqframe</artifactId>
-      <version>${com.huawei.mqframe.version}</version>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>${quartz.version}</version>
     </dependency>
-    <!-- huawei jar end -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz-jobs</artifactId>
+      <version>${quartz.version}</version>
+    </dependency>
 
     <dependency>
-      <groupId>org.apache.kafka</groupId>
-      <artifactId>kafka_2.10</artifactId>
-      <version>${kafka.version}</version>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.huawei.vmall.analyzer</groupId>
+      <artifactId>SynonymAnalyzer</artifactId>
+      <version>1.0.0</version>
     </dependency>
 
     <dependency>
