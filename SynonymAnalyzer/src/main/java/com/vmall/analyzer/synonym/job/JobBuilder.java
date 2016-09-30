@@ -1,9 +1,7 @@
-package org.wltea.analyzer.job;
+package com.vmall.analyzer.synonym.job;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.wltea.analyzer.job.DictionaryUpdateJob;
-import org.wltea.analyzer.util.JdbcUtil;
 
 /**
  * Created by shaosh on 2016/9/19.
@@ -41,12 +39,12 @@ public class JobBuilder {
 
         try {
             JobDetail job = org.quartz.JobBuilder.newJob(DictionaryUpdateJob.class)
-                    .withIdentity("DictionaryUpdateJob", "DictionaryUpdateJobGroup")
+                    .withIdentity("SynonymDictionaryUpdateJob", "SynonymDictionaryUpdateJobGroup")
                     .build();
 
             Trigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity("DictionaryUpdateTrigger", "DictionaryUpdateTriggerGroup")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0/20 * * * * ?"))
+                    .withIdentity("SynonymDictionaryUpdateTrigger", "SynonymDictionaryUpdateTriggerGroup")
+                    .withSchedule(CronScheduleBuilder.cronSchedule("0/40 * * * * ?"))
                     .startNow()
                     .build();
             sched.scheduleJob(job, trigger);
@@ -57,8 +55,5 @@ public class JobBuilder {
 
     }
 
-    public static void main(String[] args) {
-        JobBuilder.getSingleton().startJob();
-    }
 
 }

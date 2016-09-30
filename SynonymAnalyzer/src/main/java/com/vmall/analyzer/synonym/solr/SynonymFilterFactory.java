@@ -1,5 +1,6 @@
 package com.vmall.analyzer.synonym.solr;
 
+import com.vmall.analyzer.synonym.job.JobBuilder;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.util.TokenFilterFactory;
@@ -16,6 +17,7 @@ public class SynonymFilterFactory  extends TokenFilterFactory {
 
     @Override
     public TokenFilter create(TokenStream input) {
+        JobBuilder.getSingleton().startJob();
         return new SynonymFilter(input);
     }
 

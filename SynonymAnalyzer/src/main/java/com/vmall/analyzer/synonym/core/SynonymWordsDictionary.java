@@ -1,5 +1,7 @@
 package com.vmall.analyzer.synonym.core;
 
+import com.vmall.analyzer.synonym.loader.DynamicSynonymWordsLoader;
+
 import java.util.*;
 
 /**
@@ -199,6 +201,14 @@ public class SynonymWordsDictionary {
                 synonymList.add(newWord);
             }
         }
+        return true;
+    }
+
+    /**
+     * 加载新的字典
+     */
+    public boolean refreshNewDict() throws Exception{
+        synonymWords = DynamicSynonymWordsLoader.getSingleton().refreshSynonymWords();
         return true;
     }
 }

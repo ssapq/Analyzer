@@ -34,6 +34,6 @@ public class PinyinTransformTokenFilterFactory extends TokenFilterFactory  {
 
 	public TokenFilter create(TokenStream input) {
 		return new PinyinTransformTokenFilter(input, this.outputFormat,
-				this.minTermLength, this.isOutChinese);
+				this.minTermLength, false);
 	}
 }

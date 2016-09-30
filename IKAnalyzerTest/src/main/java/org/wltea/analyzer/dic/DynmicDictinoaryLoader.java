@@ -115,4 +115,20 @@ public class DynmicDictinoaryLoader {
         return true;
     }
 
+    /**
+     * 整体替换字典
+     * @return
+     * @throws Exception
+     */
+    public boolean refreshDict() throws Exception{
+        DictSegment newDict = Dictionary.getSingleton().getNewDict(null);
+        newDict = Dictionary.getSingleton().getNewExtDictFromDB(newDict);
+        if(newDict == null){
+            return false;
+        }
+
+        Dictionary.getSingleton().set_MainDict(newDict);
+        return true;
+    }
+
 }

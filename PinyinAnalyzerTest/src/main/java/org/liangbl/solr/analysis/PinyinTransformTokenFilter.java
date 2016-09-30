@@ -28,11 +28,11 @@ import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
  */
 public class PinyinTransformTokenFilter extends TokenFilter {
 
-	public static final boolean DEFAULT_IS_OUT_CHINESE = true;// 是否输出原中文开关
+	public static final boolean DEFAULT_IS_OUT_CHINESE = false;// 是否输出原中文开关
 	public static final OutputFormat DEFAULT_OUTPUTFORMAT = OutputFormat.BOTH;//拼音简拼、全拼和两者的开关，默认简拼和全拼全部索引
 	public static final int DEFAULT_MINTERMLENGTH = 2;//中文词组长度过滤，默认超过2位长度的中文才转换拼音
 	
-	private boolean isOutChinese; 
+	private boolean isOutChinese;
 	private OutputFormat outputFormat; 
 	private int _minTermLength; 
 
@@ -138,7 +138,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 	 *            中文词组过滤长度
 	 */
 	public PinyinTransformTokenFilter(TokenStream input, String outputFormat, int minTermLength) {
-		this(input, outputFormat, minTermLength, true);
+		this(input, outputFormat, minTermLength, false);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 				this.curTermLength = this.termAtt.length();
 			}
 			// 处理原输入词元
-			if ((this.isOutChinese) && (!this.hasCurOut) && (this.termIte == null)) {
+ 			if ((this.isOutChinese) && (!this.hasCurOut) && (this.termIte == null)) {
 				// 准许输出原中文词元且当前没有输出原输入词元且还没有处理拼音结果集
 				this.hasCurOut = true; // 标记以保证下次循环不会输出
 				// 写入原输入词元

@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.wltea.analyzer.cfg.Configuration;
+import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.db.KeywordDBDao;
 import org.wltea.analyzer.job.JobBuilder;
 
@@ -94,6 +95,13 @@ public class Dictionary {
 			}
 		}
 		return singleton;
+	}
+
+	/**
+	 *	 加载词典
+	 */
+	public void set_MainDict(DictSegment newMainDict){
+		this._MainDict = newMainDict;
 	}
 	
 	/**
@@ -230,9 +238,8 @@ public class Dictionary {
 			}
 		}
 		//加载扩展词典
-		this.loadExtDict();
+//		this.loadExtDict();
 	}
-
 
 	/**
 	 * 从数据库加载词库
@@ -265,6 +272,86 @@ public class Dictionary {
 		}finally {
 			System.out.println("从数据库加载扩展词典 end" );
 		}
+	}
+
+	/**
+	 *	 加载词典
+	 */
+	public DictSegment getNewDict(DictSegment newMainDict) throws Exception{
+		if(newMainDict == null){
+			newMainDict = new DictSegment((char)0);
+		}
+
+		//读取主词典文件
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream(cfg.getMainDictionary());
+		if(is == null){
+			throw new RuntimeException("Main Dictionary not found!!!");
+		}
+
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
+			String theWord = null;
+			do {
+				theWord = br.readLine();
+				if (theWord != null && !"".equals(theWord.trim())) {
+					newMainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
+				}
+			} while (theWord != null);
+
+		} catch (IOException ioe) {
+			System.err.println("Main Dictionary loading exception.");
+			ioe.printStackTrace();
+
+		}finally{
+			try {
+				if(is != null){
+					is.close();
+					is = null;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return newMainDict;
+	}
+
+	/**
+	 * 从数据库加载词库
+	 */
+	public DictSegment getNewExtDictFromDB(DictSegment newMainDict){
+		if(newMainDict == null){
+			newMainDict = new DictSegment((char)0);
+		}
+
+		List<String> keywordList = new ArrayList<String>();
+		KeywordDBDao keywordDBDao = new KeywordDBDao();
+		System.out.println("从数据库加载扩展词典 start" );
+		try{
+			keywordList = keywordDBDao.getKeywords();
+			if(keywordList == null || keywordList.isEmpty()){
+				return newMainDict;
+			}
+
+			for(String keyword : keywordList){
+				if(keyword == null || keyword.isEmpty()){
+					continue;
+				}
+
+				String[] keywordArrays = keyword.split(";");
+				for(String theWord : keywordArrays){
+					if(theWord == null || theWord.isEmpty()){
+						continue;
+					}
+					newMainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			System.out.println("从数据库加载扩展词典 end" );
+		}
+
+		return newMainDict;
 	}
 	
 	/**
