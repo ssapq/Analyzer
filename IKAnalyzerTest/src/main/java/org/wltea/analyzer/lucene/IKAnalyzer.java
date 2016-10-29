@@ -28,7 +28,7 @@ import com.vmall.analyzer.synonym.solr.SynonymFilter;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
-import org.liangbl.solr.analysis.PinyinTransformTokenFilter;
+//import org.liangbl.solr.analysis.PinyinTransformTokenFilter;
 
 /**
  * IK分词器，Lucene Analyzer接口实现
@@ -72,9 +72,9 @@ public final class IKAnalyzer extends Analyzer{
 	protected TokenStreamComponents createComponents(String fieldName) {
 		Tokenizer _IKTokenizer = new IKTokenizer(this.useSmart());
 		TokenStream _SynonymFilter = new SynonymFilter(_IKTokenizer);
-		PinyinTransformTokenFilter _pinyinTransformTokenFilter = new PinyinTransformTokenFilter(_IKTokenizer);
-		return new TokenStreamComponents(_IKTokenizer, _pinyinTransformTokenFilter);
-//		return new TokenStreamComponents(_IKTokenizer);
+//		PinyinTransformTokenFilter _pinyinTransformTokenFilter = new PinyinTransformTokenFilter(_IKTokenizer);
+//		return new TokenStreamComponents(_IKTokenizer, _pinyinTransformTokenFilter);
+		return new TokenStreamComponents(_IKTokenizer);
 	}
 
 }

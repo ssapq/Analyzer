@@ -47,8 +47,14 @@ public class JobBuilder {
                     .withSchedule(CronScheduleBuilder.cronSchedule("0/40 * * * * ?"))
                     .startNow()
                     .build();
-            sched.scheduleJob(job, trigger);
-            sched.start();
+
+            if(!sched.checkExists(job.getKey()) && !sched.checkExists(trigger.getKey())){
+                sched.scheduleJob(job, trigger);
+            }
+
+            if(sched.isStarted()){
+                sched.start();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

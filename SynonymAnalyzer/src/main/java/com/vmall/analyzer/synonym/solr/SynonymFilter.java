@@ -33,8 +33,10 @@ public class SynonymFilter extends TokenFilter {
     final public boolean incrementToken() throws IOException {
         if(synonymStack.size() > 0){
             restoreState(current);
-            charTermAttribute.setEmpty();
-            charTermAttribute.append(synonymStack.pop());
+//            charTermAttribute.setEmpty();
+//            charTermAttribute.append(synonymStack.pop());
+            String synonymWord = synonymStack.pop();
+            this.charTermAttribute.copyBuffer(synonymWord.toCharArray(), 0, synonymWord.length());
             typeAttribute.setType("SYNONYM");
             positionIncrementAttribute.setPositionIncrement(0);
             return true;

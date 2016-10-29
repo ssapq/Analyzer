@@ -49,16 +49,18 @@ public class JobBuilder {
                     .withSchedule(CronScheduleBuilder.cronSchedule("0/20 * * * * ?"))
                     .startNow()
                     .build();
-            sched.scheduleJob(job, trigger);
-            sched.start();
+
+            if(!sched.checkExists(job.getKey()) && !sched.checkExists(trigger.getKey())){
+                sched.scheduleJob(job, trigger);
+            }
+
+            if(sched.isStarted()){
+                sched.start();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-    }
-
-    public static void main(String[] args) {
-        JobBuilder.getSingleton().startJob();
     }
 
 }
