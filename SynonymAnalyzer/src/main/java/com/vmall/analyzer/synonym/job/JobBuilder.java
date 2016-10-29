@@ -1,5 +1,6 @@
 package com.vmall.analyzer.synonym.job;
 
+import com.vmall.analyzer.synonym.util.PropertyUtil;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -44,7 +45,7 @@ public class JobBuilder {
 
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("SynonymDictionaryUpdateTrigger", "SynonymDictionaryUpdateTriggerGroup")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0/40 * * * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule(PropertyUtil.getCronExpression()))
                     .startNow()
                     .build();
 

@@ -4,6 +4,7 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.wltea.analyzer.job.DictionaryUpdateJob;
 import org.wltea.analyzer.util.JdbcUtil;
+import org.wltea.analyzer.util.PropertyUtil;
 
 /**
  * Created by shaosh on 2016/9/19.
@@ -46,7 +47,7 @@ public class JobBuilder {
 
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("DictionaryUpdateTrigger", "DictionaryUpdateTriggerGroup")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0/20 * * * * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule(PropertyUtil.getCronExpression()))
                     .startNow()
                     .build();
 

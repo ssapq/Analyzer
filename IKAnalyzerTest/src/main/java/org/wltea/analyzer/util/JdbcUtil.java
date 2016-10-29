@@ -1,6 +1,7 @@
 package org.wltea.analyzer.util;
 
 import com.mysql.jdbc.Connection;
+import org.wltea.analyzer.cfg.JdbcConfig;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,15 +23,11 @@ public class JdbcUtil {
     }
 
     private JdbcUtil(){
-//        driver = PropertyUtil.getPropertyValue(Constant.JDBC_CONFIG,Constant.JDBC_DRIVER);
-//        url = PropertyUtil.getPropertyValue(Constant.JDBC_CONFIG,Constant.JDBC_URL);
-//        password = PropertyUtil.getPropertyValue(Constant.JDBC_CONFIG,Constant.JDBC_PASSWORD);
-//        username = PropertyUtil.getPropertyValue(Constant.JDBC_CONFIG,Constant.JDBC_USERNAME);
-
-        driver = "com.mysql.jdbc.Driver";
-        url = "jdbc:mysql://15.114.108.70:3306/search?useUnicode=true&characterEncoding=utf8";
-        username = "root";
-        password = "root";
+        JdbcConfig jdbcConfig = PropertyUtil.getDbConfig();
+        driver = jdbcConfig.getDriver();
+        url = jdbcConfig.getUrl();
+        username = jdbcConfig.getUsername();
+        password = jdbcConfig.getPassword();
     }
 
     public static JdbcUtil getSingleton() {

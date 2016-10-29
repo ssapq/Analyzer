@@ -25,34 +25,6 @@ public class DictionaryUpdateJob implements Job{
      * @throws JobExecutionException
      */
     public void execute(JobExecutionContext context) throws JobExecutionException {
-//        KeywordDBDao keywordDBDao = new KeywordDBDao();
-//        List<String> addKeywordList = new ArrayList<String>();
-//        List<String> keywords = keywordDBDao.getKeywords();
-//        if(keywords == null || keywords.isEmpty()){
-//            return;
-//        }
-//
-//        for(String keyword : keywords){
-//            if(keyword == null || keyword.isEmpty()){
-//                continue;
-//            }
-//
-//            String[] keywordArrays = keyword.split(";");
-//            for(String keywordSplited : keywordArrays){
-//                if(keywordSplited == null || keywordSplited.isEmpty()){
-//                    continue;
-//                }
-//
-//                addKeywordList.add(keywordSplited);
-//            }
-//        }
-//
-//        try{
-//            DynmicDictinoaryLoader.getSingleton().doAddWords(addKeywordList);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
         try{
             DynmicDictinoaryLoader.getSingleton().refreshDict();
         }catch (Exception e){

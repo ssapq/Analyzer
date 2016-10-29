@@ -1,6 +1,7 @@
 package com.vmall.analyzer.synonym.util;
 
 import com.mysql.jdbc.Connection;
+import com.vmall.analyzer.synonym.db.JdbcConfig;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,11 +23,11 @@ public class JdbcUtil {
     }
 
     private JdbcUtil(){
-
-        driver = "com.mysql.jdbc.Driver";
-        url = "jdbc:mysql://15.114.108.70:3306/search?useUnicode=true&characterEncoding=utf8";
-        username = "root";
-        password = "root";
+        JdbcConfig jdbcConfig = PropertyUtil.getDbConfig();
+        driver = jdbcConfig.getDriver();
+        url = jdbcConfig.getUrl();
+        username = jdbcConfig.getUsername();
+        password = jdbcConfig.getPassword();
     }
 
     public static JdbcUtil getSingleton() {

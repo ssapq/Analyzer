@@ -1,8 +1,9 @@
-package org.wltea.analyzer.util;
+package com.vmall.analyzer.synonym.util;
 
-import org.wltea.analyzer.cfg.JdbcConfig;
 
-import java.io.*;
+import com.vmall.analyzer.synonym.db.JdbcConfig;
+
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
