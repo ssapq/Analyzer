@@ -2,6 +2,7 @@ package org.wltea.analyzer.db;
 
 import com.mysql.jdbc.Connection;
 import org.wltea.analyzer.util.JdbcUtil;
+import org.wltea.analyzer.util.PropertyUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +20,10 @@ public class KeywordDBDao {
      * @return
      */
     public List<String> getKeywords() {
+        if(!PropertyUtil.isLoadFromDb()){
+            return null;
+        }
+
         List<String> keywordList = new ArrayList<String>();
 
         Connection conn = JdbcUtil.getSingleton().getConn();

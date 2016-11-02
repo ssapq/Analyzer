@@ -37,6 +37,7 @@ import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.db.KeywordDBDao;
 import org.wltea.analyzer.job.JobBuilder;
+import org.wltea.analyzer.util.PropertyUtil;
 
 /**
  * 词典管理类,单子模式
@@ -245,6 +246,10 @@ public class Dictionary {
 	 * 从数据库加载词库
 	 */
 	public void loadExtDictFromDB(){
+		if(!PropertyUtil.isLoadFromDb()){
+			return;
+		}
+
 		List<String> keywordList = new ArrayList<String>();
 		KeywordDBDao keywordDBDao = new KeywordDBDao();
 		System.out.println("从数据库加载扩展词典 start" );

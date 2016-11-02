@@ -69,7 +69,7 @@ public final class IKAnalyzer extends Analyzer{
 	 */
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName) {
-		Tokenizer _IKTokenizer = new IKTokenizer(this.useSmart());
+		Tokenizer _IKTokenizer = new IKTokenizer(false);
 		return new TokenStreamComponents(_IKTokenizer);
 	}
 
