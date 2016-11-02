@@ -34,6 +34,10 @@ public class PropertyUtil {
         return getPropertyValue("dictionary.properties","job.cronexpression");
     }
 
+    public static String getStrEnDeCryptKey(){
+        return getPropertyValue("dictionary.properties","strEnDeCryptKey");
+    }
+
     /**@function: get property value by property name
      * @param: String property name
      * @return: String property value

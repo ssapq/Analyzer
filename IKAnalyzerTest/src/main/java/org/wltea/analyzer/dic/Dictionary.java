@@ -33,16 +33,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.db.KeywordDBDao;
 import org.wltea.analyzer.job.JobBuilder;
+import org.wltea.analyzer.util.JdbcUtil;
 
 /**
  * 词典管理类,单子模式
  */
 public class Dictionary {
-
+	private static Logger logger = Logger.getLogger(Dictionary.class);
 
 	/*
 	 * 词典单子实例
@@ -245,9 +247,13 @@ public class Dictionary {
 	 * 从数据库加载词库
 	 */
 	public void loadExtDictFromDB(){
+		logger.info("-------------------------- load ext dict from db start --------------------------");
+		System.out.println("-------------------------- load ext dict from db start --------------------------" );
+
+		int count = 0;
 		List<String> keywordList = new ArrayList<String>();
 		KeywordDBDao keywordDBDao = new KeywordDBDao();
-		System.out.println("从数据库加载扩展词典 start" );
+
 		try{
 			keywordList = keywordDBDao.getKeywords();
 			if(keywordList == null || keywordList.isEmpty()){
@@ -264,13 +270,17 @@ public class Dictionary {
 					if(theWord == null || theWord.isEmpty()){
 						continue;
 					}
+					count ++;
 					_MainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
 				}
+
 			}
+			logger.info("-------------------------- load ext dict num :"+ count +"--------------------------");
 		}catch (Exception e){
 			e.printStackTrace();
 		}finally {
 			System.out.println("从数据库加载扩展词典 end" );
+			logger.info("-------------------------- load ext dict from db end --------------------------");
 		}
 	}
 

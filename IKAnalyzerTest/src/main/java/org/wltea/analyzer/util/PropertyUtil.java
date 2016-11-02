@@ -29,6 +29,10 @@ public class PropertyUtil {
         return jdbcConfig;
     }
 
+    public static String getStrEnDeCryptKey(){
+        return getPropertyValue("dictionary.properties","strEnDeCryptKey");
+    }
+
     public static String getCronExpression(){
         return getPropertyValue("dictionary.properties","job.cronexpression");
     }

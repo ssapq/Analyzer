@@ -45,8 +45,7 @@ public class IKTokenizerFactory  extends TokenizerFactory {
      * @return
      */
     private IKTokenizer newTokenizer(){
-//        IKTokenizer tokenizer = new IKTokenizer(this.useSmart);
-        IKTokenizer tokenizer = new IKTokenizer(false);
+        IKTokenizer tokenizer = new IKTokenizer(this.useSmart);
         tokenizerLocal.set(tokenizer);
         return tokenizer;
     }

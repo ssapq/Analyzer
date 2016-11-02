@@ -2,6 +2,7 @@ package com.vmall.analyzer.synonym.util;
 
 import com.mysql.jdbc.Connection;
 import com.vmall.analyzer.synonym.db.JdbcConfig;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -26,8 +27,16 @@ public class JdbcUtil {
         JdbcConfig jdbcConfig = PropertyUtil.getDbConfig();
         driver = jdbcConfig.getDriver();
         url = jdbcConfig.getUrl();
-        username = jdbcConfig.getUsername();
-        password = jdbcConfig.getPassword();
+        try{
+            String key = PropertyUtil.getStrEnDeCryptKey().substring(0, 16);
+            if(StringUtils.isBlank(key)){
+                throw new Exception("key is null");
+            }
+            username = EncryptUtils.aesDecrypt(jdbcConfig.getUsername(), key);
+            password = EncryptUtils.aesDecrypt(jdbcConfig.getPassword(), key);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static JdbcUtil getSingleton() {
