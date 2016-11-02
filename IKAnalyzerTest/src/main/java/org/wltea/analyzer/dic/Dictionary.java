@@ -38,6 +38,7 @@ import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.db.KeywordDBDao;
 import org.wltea.analyzer.job.JobBuilder;
+import org.wltea.analyzer.util.PropertyUtil;
 import org.wltea.analyzer.util.JdbcUtil;
 
 /**
@@ -247,6 +248,10 @@ public class Dictionary {
 	 * 从数据库加载词库
 	 */
 	public void loadExtDictFromDB(){
+		if(!PropertyUtil.isLoadFromDb()){
+			return;
+		}
+
 		logger.info("-------------------------- load ext dict from db start --------------------------");
 		System.out.println("-------------------------- load ext dict from db start --------------------------" );
 

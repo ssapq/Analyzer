@@ -37,6 +37,10 @@ public class PropertyUtil {
         return getPropertyValue("dictionary.properties","job.cronexpression");
     }
 
+    public static boolean isLoadFromDb(){
+        return Boolean.parseBoolean(getPropertyValue("dictionary.properties","init.loadfromdb"));
+    }
+
     /**@function: get property value by property name
      * @param: String property name
      * @return: String property value

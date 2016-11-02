@@ -9,6 +9,7 @@ import org.wltea.analyzer.db.KeywordDBDao;
 import org.wltea.analyzer.dic.Dictionary;
 import org.wltea.analyzer.dic.DynmicDictinoaryLoader;
 import org.wltea.analyzer.util.JdbcUtil;
+import org.wltea.analyzer.util.PropertyUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +30,10 @@ public class DictionaryUpdateJob implements Job{
      */
     public void execute(JobExecutionContext context) throws JobExecutionException {
         logger.info("---------- refresh dictonary start ----------");
+        if(!PropertyUtil.isLoadFromDb()){
+            return;
+        }
+
         try{
             DynmicDictinoaryLoader.getSingleton().refreshDict();
         }catch (Exception e){
