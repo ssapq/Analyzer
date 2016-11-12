@@ -17,7 +17,6 @@ public class SynonymFilterFactory  extends TokenFilterFactory {
 
     @Override
     public TokenFilter create(TokenStream input) {
-        JobBuilder.getSingleton().startJob();
         return new SynonymFilter(input);
     }
 

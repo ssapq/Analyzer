@@ -127,8 +127,19 @@ public class DynmicDictinoaryLoader {
             return false;
         }
 
+        newDict = Dictionary.getSingleton().getSynonymDictFromDB(newDict);
+        if(newDict == null){
+            return false;
+        }
+
+        newDict = Dictionary.getSingleton().getSearchAttributesFromDB(newDict);
+        if(newDict == null){
+            return false;
+        }
+
         Dictionary.getSingleton().set_MainDict(newDict);
         return true;
     }
+
 
 }

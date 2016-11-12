@@ -1,6 +1,9 @@
 package com.vmall.analyzer.synonym.core;
 
+import com.vmall.analyzer.synonym.job.JobBuilder;
 import com.vmall.analyzer.synonym.loader.DynamicSynonymWordsLoader;
+import com.vmall.analyzer.synonym.util.Costants;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
@@ -10,6 +13,7 @@ import java.util.*;
  * 同义词是一组多对多的词
  */
 public class SynonymWordsDictionary {
+    private static Logger logger = Logger.getLogger(SynonymWordsDictionary.class);
     private static volatile Map<String,List<String>> synonymWords;//
 
     /*
@@ -17,29 +21,23 @@ public class SynonymWordsDictionary {
      */
     private static SynonymWordsDictionary singleton;
 
-    static {
-        synonymWords = new HashMap<String, List<String>>();
-    }
-
     private SynonymWordsDictionary(){
+        synonymWords = new HashMap<String, List<String>>();
+        JobBuilder.getSingleton().startJob();
     }
 
     /**
      * 词典初始化
      */
     public static SynonymWordsDictionary initial(){
-        if(synonymWords == null){
-            synonymWords = new HashMap<String, List<String>>();
-        }
-
+        logger.info(Costants.LOG_SIGN +"--------------SynonymWordsDictionary init start --------------------");
         if(singleton == null){
             synchronized(SynonymWordsDictionary.class){
-                if(singleton == null){
-                    singleton = new SynonymWordsDictionary();
-                    return singleton;
-                }
+                singleton = new SynonymWordsDictionary();
+                return singleton;
             }
         }
+        logger.info(Costants.LOG_SIGN +"--------------SynonymWordsDictionary init end --------------------");
         return singleton;
     }
 
@@ -49,6 +47,7 @@ public class SynonymWordsDictionary {
      */
     public static SynonymWordsDictionary getSingleton(){
         if(singleton == null){
+            logger.info(Costants.LOG_SIGN +"-------------- singleton is null , init SynonymWordsDictionary --------------------");
             SynonymWordsDictionary.initial();
         }
 
@@ -60,7 +59,7 @@ public class SynonymWordsDictionary {
      * @return
      */
     public boolean isSynonyWordsLoadFinieshed() {
-        return  !synonymWords.isEmpty();
+        return  !(synonymWords == null);
     }
 
     /**

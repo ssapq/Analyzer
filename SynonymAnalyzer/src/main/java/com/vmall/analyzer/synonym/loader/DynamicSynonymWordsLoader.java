@@ -3,6 +3,9 @@ package com.vmall.analyzer.synonym.loader;
 import com.vmall.analyzer.synonym.core.SynonymWordsDictionary;
 import com.vmall.analyzer.synonym.core.Word;
 import com.vmall.analyzer.synonym.db.SynonymwordDBDao;
+import com.vmall.analyzer.synonym.job.JobBuilder;
+import com.vmall.analyzer.synonym.util.Costants;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
@@ -10,7 +13,7 @@ import java.util.*;
  * Created by shaosh on 2016/8/29.
  */
 public class DynamicSynonymWordsLoader {
-
+    private static Logger logger = Logger.getLogger(DynamicSynonymWordsLoader.class);
     private static DynamicSynonymWordsLoader singleton;
 
     private DynamicSynonymWordsLoader(){
@@ -35,6 +38,7 @@ public class DynamicSynonymWordsLoader {
      * 加载同义词
      */
     public void loadSynonymWords() throws Exception{
+        logger.info(Costants.LOG_SIGN + "---------start load synony words --------------");
         SynonymwordDBDao synonymwordDBDao = new SynonymwordDBDao();
         List<Word> synonymWordList = synonymwordDBDao.getKeywords();
 
@@ -60,6 +64,14 @@ public class DynamicSynonymWordsLoader {
             String[] oringinalWordArray = originalWords.split(";");
             String[] synonyWordArray = synonyWords.split(";");
 
+            if(oringinalWordArray == null){
+                continue;
+            }
+
+            if(synonyWordArray == null){
+                continue;
+            }
+
             if(oringinalWordArray.length == 0){
                 continue;
             }
@@ -74,14 +86,15 @@ public class DynamicSynonymWordsLoader {
 
                 SynonymWordsDictionary.getSingleton().addWords(originalWord, Arrays.asList(synonyWordArray));
             }
-
         }
+        logger.info("--------- load synony words end, load " + synonymWordList.size()+ " words--------------");
     }
 
     /**
      * 加载同义词
      */
     public Map<String,List<String>> refreshSynonymWords() throws Exception{
+        logger.info(Costants.LOG_SIGN + "---------start refresh synony words --------------");
         Map<String,List<String>> newDict = new HashMap<String, List<String>>();
         SynonymwordDBDao synonymwordDBDao = new SynonymwordDBDao();
         List<Word> synonymWordList = synonymwordDBDao.getKeywords();
@@ -128,6 +141,7 @@ public class DynamicSynonymWordsLoader {
             }
 
         }
+        logger.info(Costants.LOG_SIGN + "--------- refresh synony words end, load " + synonymWordList.size()+ " words--------------");
         return newDict;
     }
 }

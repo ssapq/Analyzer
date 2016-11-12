@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.huawei.vmall.analyzer</groupId>
-  <artifactId>IKAnalyzer</artifactId>
+  <artifactId>SESLexiconAnalyzer</artifactId>
   <version>5.5.1</version>
   <packaging>jar</packaging>
 
-  <name>IKAnalyzer</name>
+  <name>SESLexiconAnalyzer</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -150,11 +150,6 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>${log4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j.version}</version>
     </dependency>
 
     <dependency>

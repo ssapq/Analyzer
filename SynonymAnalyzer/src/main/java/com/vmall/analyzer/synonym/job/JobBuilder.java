@@ -1,6 +1,8 @@
 package com.vmall.analyzer.synonym.job;
 
+import com.vmall.analyzer.synonym.util.Costants;
 import com.vmall.analyzer.synonym.util.PropertyUtil;
+import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -9,6 +11,7 @@ import org.quartz.impl.StdSchedulerFactory;
  */
 public class JobBuilder {
 
+    private static Logger logger = Logger.getLogger(JobBuilder.class);
     private static JobBuilder singleton;
 
     public static JobBuilder getSingleton() {
@@ -35,7 +38,7 @@ public class JobBuilder {
             SchedulerFactory schedFact = new StdSchedulerFactory();
             sched = schedFact.getScheduler();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
 
         try {
@@ -54,10 +57,18 @@ public class JobBuilder {
             }
 
             if(sched.isStarted()){
-                sched.start();
+                sched.shutdown();
+                if(sched.isShutdown()){
+                    logger.info(Costants.LOG_SIGN + "---------- synonym refresh Scheduler has shutdown ----------");
+                    sched.startDelayed(30);
+                }
+                logger.info(Costants.LOG_SIGN + "---------- start synonym refresh Scheduler ----------");
+            }else{
+                sched.startDelayed(30);
+                logger.info(Costants.LOG_SIGN + "---------- start synonym refresh Scheduler ----------");
             }
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
 
     }

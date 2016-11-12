@@ -38,6 +38,7 @@ import org.wltea.analyzer.cfg.Configuration;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.db.KeywordDBDao;
 import org.wltea.analyzer.job.JobBuilder;
+import org.wltea.analyzer.util.Constant;
 import org.wltea.analyzer.util.PropertyUtil;
 import org.wltea.analyzer.util.JdbcUtil;
 
@@ -77,6 +78,8 @@ public class Dictionary {
 		this.loadStopWordDict();
 		this.loadQuantifierDict();
 		this.loadExtDictFromDB();
+		this.loadSynonymFromDB();
+		this.loadSearchAttributesFromDB();
 		JobBuilder.getSingleton().startJob();
 	}
 	
@@ -252,8 +255,7 @@ public class Dictionary {
 			return;
 		}
 
-		logger.info("-------------------------- load ext dict from db start --------------------------");
-		System.out.println("-------------------------- load ext dict from db start --------------------------" );
+		logger.info(Constant.LOG_SIGN + "-------------------------- load ext dict from db start --------------------------");
 
 		int count = 0;
 		List<String> keywordList = new ArrayList<String>();
@@ -280,12 +282,91 @@ public class Dictionary {
 				}
 
 			}
-			logger.info("-------------------------- load ext dict num :"+ count +"--------------------------");
+			logger.info(Constant.LOG_SIGN + "-------------------------- load ext dict num :"+ count +"--------------------------");
 		}catch (Exception e){
 			e.printStackTrace();
 		}finally {
 			System.out.println("从数据库加载扩展词典 end" );
-			logger.info("-------------------------- load ext dict from db end --------------------------");
+			logger.info(Constant.LOG_SIGN + "-------------------------- load ext dict from db end --------------------------");
+		}
+	}
+
+	/**
+	 * 从数据库加载同义词库
+	 */
+	public void loadSynonymFromDB(){
+		if(!PropertyUtil.isLoadFromDb()){
+			return;
+		}
+
+		logger.info(Constant.LOG_SIGN + "-------------------------- load synonym dict from db start --------------------------");
+
+		int count = 0;
+		List<String> synonymList = new ArrayList<String>();
+		KeywordDBDao keywordDBDao = new KeywordDBDao();
+
+		try{
+			synonymList = keywordDBDao.getSynonyms();
+			if(synonymList == null || synonymList.isEmpty()){
+				return;
+			}
+
+			for(String keyword : synonymList){
+				if(keyword == null || keyword.isEmpty()){
+					continue;
+				}
+
+				String[] keywordArrays = keyword.split(";");
+				for(String theWord : keywordArrays){
+					if(theWord == null || theWord.isEmpty()){
+						continue;
+					}
+					count ++;
+					_MainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
+				}
+
+			}
+			logger.info(Constant.LOG_SIGN + "-------------------------- load synonym dict num :"+ count +"--------------------------");
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			logger.info(Constant.LOG_SIGN + "-------------------------- load synonym dict from db end --------------------------");
+		}
+	}
+
+	/**
+	 * 从搜索源加载词库
+	 */
+	public void loadSearchAttributesFromDB(){
+		if(!PropertyUtil.isLoadFromDb()){
+			return;
+		}
+
+		logger.info(Constant.LOG_SIGN + "-------------------------- load search attributes dict from db start --------------------------");
+
+		int count = 0;
+		List<String> searchAttributes = new ArrayList<String>();
+		KeywordDBDao keywordDBDao = new KeywordDBDao();
+
+		try{
+			searchAttributes = keywordDBDao.getSearchAttributes();
+			if(searchAttributes == null || searchAttributes.isEmpty()){
+				return;
+			}
+
+			for(String searchAttribute : searchAttributes){
+				if(searchAttribute == null || searchAttribute.isEmpty()){
+					continue;
+				}
+				_MainDict.fillSegment(searchAttribute.trim().toLowerCase().toCharArray());
+				count ++;
+
+			}
+			logger.info(Constant.LOG_SIGN + "-------------------------- load search attributes num :"+ count +"--------------------------");
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			logger.info(Constant.LOG_SIGN + "-------------------------- load search attributes from db end --------------------------");
 		}
 	}
 
@@ -364,6 +445,82 @@ public class Dictionary {
 			e.printStackTrace();
 		}finally {
 			System.out.println("从数据库加载扩展词典 end" );
+		}
+
+		return newMainDict;
+	}
+
+	/**
+	 * 更新同义词词库
+	 * @return
+	 * @throws Exception
+	 */
+	public DictSegment getSynonymDictFromDB(DictSegment newMainDict) throws Exception{
+		if(newMainDict == null){
+			newMainDict = new DictSegment((char)0);
+		}
+
+		List<String> synonymList = new ArrayList<String>();
+		KeywordDBDao keywordDBDao = new KeywordDBDao();
+		logger.info(Constant.LOG_SIGN + " ----------------------- get synon words from db start -----------------------");
+		try{
+			synonymList = keywordDBDao.getSynonyms();
+			if(synonymList == null || synonymList.isEmpty()){
+				return newMainDict;
+			}
+
+			for(String synonym : synonymList){
+				if(synonym == null || synonym.isEmpty()){
+					continue;
+				}
+
+				String[] keywordArrays = synonym.split(";");
+				for(String theWord : keywordArrays){
+					if(theWord == null || theWord.isEmpty()){
+						continue;
+					}
+					newMainDict.fillSegment(theWord.trim().toLowerCase().toCharArray());
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			logger.info(Constant.LOG_SIGN + " ----------------------- get synon words from db end -----------------------");
+		}
+
+		return newMainDict;
+	}
+
+	/**
+	 * 更新同义词词库
+	 * @return
+	 * @throws Exception
+	 */
+	public DictSegment getSearchAttributesFromDB(DictSegment newMainDict) throws Exception{
+		if(newMainDict == null){
+			newMainDict = new DictSegment((char)0);
+		}
+
+		List<String> searchAttributes = new ArrayList<String>();
+		KeywordDBDao keywordDBDao = new KeywordDBDao();
+		logger.info(Constant.LOG_SIGN + " ----------------------- get search attributes from db start -----------------------");
+		try{
+			searchAttributes = keywordDBDao.getSearchAttributes();
+			if(searchAttributes == null || searchAttributes.isEmpty()){
+				return newMainDict;
+			}
+
+			for(String searchAttr : searchAttributes){
+				if(searchAttr == null || searchAttr.isEmpty()){
+					continue;
+				}
+
+				newMainDict.fillSegment(searchAttr.trim().toLowerCase().toCharArray());
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			logger.info(Constant.LOG_SIGN + " ----------------------- get  search attributes from db end -----------------------");
 		}
 
 		return newMainDict;

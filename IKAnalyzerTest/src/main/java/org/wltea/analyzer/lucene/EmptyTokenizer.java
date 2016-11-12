@@ -10,7 +10,6 @@ import java.io.IOException;
 public class EmptyTokenizer extends Tokenizer {
     @Override
     public boolean incrementToken() throws IOException {
-
-        return true;
+        return false;
     }
 }

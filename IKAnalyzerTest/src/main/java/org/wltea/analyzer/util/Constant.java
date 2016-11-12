@@ -13,5 +13,7 @@ public class Constant {
     public static final String JDBC_PASSWORD = "jdbc.password";
     public static final String JDBC_USERNAME = "jdbc.user";
 
+    public static final String LOG_SIGN = "[LEXICON]";
+
 //    public static final String  = "";
 }

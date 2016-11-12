@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.huawei.vmall.analyzer</groupId>
-  <artifactId>PinyinAnalyzer</artifactId>
+  <artifactId>SESPinyinAnalyzer</artifactId>
   <version>5.5.1</version>
   <packaging>jar</packaging>
 
-  <name>PinyinAnalyzer</name>
+  <name>SESPinyinAnalyzer</name>
   <url>http://maven.apache.org</url>
 
   <properties>

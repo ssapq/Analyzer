@@ -30,7 +30,7 @@ public class PinyinTransformTokenFilter extends TokenFilter {
 
 	public static final boolean DEFAULT_IS_OUT_CHINESE = false;// 是否输出原中文开关
 	public static final OutputFormat DEFAULT_OUTPUTFORMAT = OutputFormat.BOTH;//拼音简拼、全拼和两者的开关，默认简拼和全拼全部索引
-	public static final int DEFAULT_MINTERMLENGTH = 2;//中文词组长度过滤，默认超过2位长度的中文才转换拼音
+	public static final int DEFAULT_MINTERMLENGTH = 1;//中文词组长度过滤，默认超过2位长度的中文才转换拼音
 	
 	private boolean isOutChinese;
 	private OutputFormat outputFormat; 

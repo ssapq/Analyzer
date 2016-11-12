@@ -16,7 +16,7 @@ import java.util.List;
 public class KeywordDBDao {
 
     /**
-     *
+     * 获得词库关键词
      * @return
      */
     public List<String> getKeywords() {
@@ -39,5 +39,60 @@ public class KeywordDBDao {
             e.printStackTrace();
         }
         return keywordList;
+    }
+
+    /**
+     * 获得词库关键词
+     * @return
+     */
+    public List<String> getSynonyms() {
+        if(!PropertyUtil.isLoadFromDb()){
+            return null;
+        }
+
+        List<String> synonyms = new ArrayList<String>();
+
+        Connection conn = JdbcUtil.getSingleton().getConn();
+        String sql = "select keyword,synonymword from search_synonym_t";
+        PreparedStatement pstmt;
+        try {
+            pstmt = (PreparedStatement)conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                //add original words and synonym words
+                synonyms.add(rs.getString(1));
+                synonyms.add(rs.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return synonyms;
+    }
+
+    /**
+     * 获得词库关键词
+     * @return
+     */
+    public List<String> getSearchAttributes() {
+        if(!PropertyUtil.isLoadFromDb()){
+            return null;
+        }
+
+        List<String> synonyms = new ArrayList<String>();
+
+        Connection conn = JdbcUtil.getSingleton().getConn();
+        String sql = "select attrval from search_attr_val_t";
+        PreparedStatement pstmt;
+        try {
+            pstmt = (PreparedStatement)conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                //add original words and synonym words
+                synonyms.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return synonyms;
     }
 }

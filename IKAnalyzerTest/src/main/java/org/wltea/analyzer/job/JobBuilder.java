@@ -1,8 +1,10 @@
 package org.wltea.analyzer.job;
 
+import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.wltea.analyzer.job.DictionaryUpdateJob;
+import org.wltea.analyzer.util.Constant;
 import org.wltea.analyzer.util.JdbcUtil;
 import org.wltea.analyzer.util.PropertyUtil;
 
@@ -10,7 +12,7 @@ import org.wltea.analyzer.util.PropertyUtil;
  * Created by shaosh on 2016/9/19.
  */
 public class JobBuilder {
-
+    private static Logger logger = Logger.getLogger(JobBuilder.class);
     private static JobBuilder singleton;
 
     public static JobBuilder getSingleton() {
@@ -37,7 +39,7 @@ public class JobBuilder {
             SchedulerFactory schedFact = new StdSchedulerFactory();
             sched = schedFact.getScheduler();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
 
         try {
@@ -56,10 +58,25 @@ public class JobBuilder {
             }
 
             if(sched.isStarted()){
-                sched.start();
+                sched.shutdown();
+                if(sched.isShutdown()){
+                    if(logger.isInfoEnabled()){
+                        logger.info(Constant.LOG_SIGN + "---------- lexicon refresh Scheduler has shutdown ----------");
+                    }
+                    sched.startDelayed(30);
+                }
+                if(logger.isInfoEnabled()){
+                    logger.info(Constant.LOG_SIGN + "---------- start lexicon refresh Scheduler ----------");
+                }
+            }else{
+                sched.startDelayed(30);
+                if(logger.isInfoEnabled()){
+                    logger.info(Constant.LOG_SIGN + "---------- start lexicon refresh Scheduler ----------");
+                }
             }
+
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
 
     }
