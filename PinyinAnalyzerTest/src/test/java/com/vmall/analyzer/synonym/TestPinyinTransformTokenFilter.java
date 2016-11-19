@@ -1,7 +1,5 @@
 package com.vmall.analyzer.synonym;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -15,8 +13,8 @@ import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.liangbl.solr.analysis.PinyinTransformTokenFilter;
-import org.liangbl.solr.analysis.PinyinTransformTokenFilterFactory;
+import com.vmall.search.solr.pinyin.PinyinTransformTokenFilter;
+import com.vmall.search.solr.pinyin.PinyinTransformTokenFilterFactory;
 
 
 @SuppressWarnings("unused")

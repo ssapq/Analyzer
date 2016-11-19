@@ -1,4 +1,4 @@
-package org.liangbl.solr.analysis;
+package com.vmall.search.solr.pinyin;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more

@@ -1,11 +1,11 @@
-package org.liangbl.solr.analysis;
+package com.vmall.search.solr.pinyin;
 
 import java.util.Map;
 
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.util.TokenFilterFactory;
-import org.liangbl.solr.analysis.PinyinTransformTokenFilter.OutputFormat;
+import com.vmall.search.solr.pinyin.PinyinTransformTokenFilter.OutputFormat;
 
 
 

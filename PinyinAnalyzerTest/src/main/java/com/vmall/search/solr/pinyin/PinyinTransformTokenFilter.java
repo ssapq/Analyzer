@@ -1,4 +1,4 @@
-package org.liangbl.solr.analysis;
+package com.vmall.search.solr.pinyin;
 
 import java.io.IOException;
 import java.util.ArrayList;

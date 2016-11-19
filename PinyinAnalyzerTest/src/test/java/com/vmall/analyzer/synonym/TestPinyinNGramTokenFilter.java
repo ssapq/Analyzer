@@ -13,8 +13,8 @@ import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.liangbl.solr.analysis.PinyinNGramTokenFilter;
-import org.liangbl.solr.analysis.PinyinNGramTokenFilterFactory;
+import com.vmall.search.solr.pinyin.PinyinNGramTokenFilter;
+import com.vmall.search.solr.pinyin.PinyinNGramTokenFilterFactory;
 
 @SuppressWarnings("unused")
 @RunWith(com.carrotsearch.randomizedtesting.RandomizedRunner.class)
