@@ -1,5 +1,6 @@
 package com.vmall.analyzer.synonym.core;
 
+import com.vmall.analyzer.synonym.db.SynonymwordDBDao;
 import com.vmall.analyzer.synonym.job.JobBuilder;
 import com.vmall.analyzer.synonym.loader.DynamicSynonymWordsLoader;
 import com.vmall.analyzer.synonym.util.Costants;
@@ -23,6 +24,7 @@ public class SynonymWordsDictionary {
 
     private SynonymWordsDictionary(){
         synonymWords = new HashMap<String, List<String>>();
+        this.loadSynonymWords();
         JobBuilder.getSingleton().startJob();
     }
 
@@ -52,6 +54,67 @@ public class SynonymWordsDictionary {
         }
 
         return singleton;
+    }
+
+    /**
+     * 加载同义词
+     */
+    public void loadSynonymWords(){
+        logger.info(Costants.LOG_SIGN + "---------start load synony words --------------");
+        try {
+            SynonymwordDBDao synonymwordDBDao = new SynonymwordDBDao();
+            List<Word> synonymWordList = synonymwordDBDao.getKeywords();
+
+            if (synonymWordList == null || synonymWordList.isEmpty()) {
+                return;
+            }
+
+            for (Word word : synonymWordList) {
+                if (word == null) {
+                    continue;
+                }
+
+                String originalWords = word.getOriginalWord();
+                String synonyWords = word.getSynonyWord();
+
+                if (originalWords == null || originalWords.isEmpty()) {
+                    continue;
+                }
+                if (synonyWords == null || synonyWords.isEmpty()) {
+                    continue;
+                }
+
+                String[] oringinalWordArray = originalWords.split(";");
+                String[] synonyWordArray = synonyWords.split(";");
+
+                if (oringinalWordArray == null) {
+                    continue;
+                }
+
+                if (synonyWordArray == null) {
+                    continue;
+                }
+
+                if (oringinalWordArray.length == 0) {
+                    continue;
+                }
+                if (synonyWordArray.length == 0) {
+                    continue;
+                }
+
+                for (String originalWord : oringinalWordArray) {
+                    if (originalWord == null || originalWord.isEmpty()) {
+                        continue;
+                    }
+
+                    SynonymWordsDictionary.getSingleton().addWords(originalWord, Arrays.asList(synonyWordArray));
+                }
+            }
+            logger.info("--------- load synony words end, load " + synonymWordList.size()+ " words--------------");
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+        }
+
     }
 
     /**

@@ -51,7 +51,7 @@ public class IKTokenizerFactory  extends TokenizerFactory {
             this.useFragment = Boolean.valueOf(args.get("useFragment"));
         }
 
-        logger.info("starting monitor");
+        logger.info("starting ses analyzer monitor");
         ThreadManager.work();
 
     }

@@ -74,8 +74,8 @@ public final class IKSegmenter {
 	 * 初始化
 	 */
 	private void init(){
-		//初始化词典单例
-		DictionaryCore.initial(this.cfg);
+//		//初始化词典单例
+//		DictionaryCore.initial(this.cfg);
 		//初始化分词上下文
 		this.context = new AnalyzeContext(this.cfg);
 		//加载子分词器

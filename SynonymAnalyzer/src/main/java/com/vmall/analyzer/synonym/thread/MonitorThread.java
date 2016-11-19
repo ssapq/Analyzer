@@ -1,7 +1,6 @@
 package com.vmall.analyzer.synonym.thread;
 
-import com.vmall.search.analyzer.cfg.DefaultConfig;
-import com.vmall.search.analyzer.dic.DictionaryCore;
+import com.vmall.analyzer.synonym.core.SynonymWordsDictionary;
 import org.apache.log4j.Logger;
 
 /**
@@ -12,7 +11,7 @@ public class MonitorThread implements Runnable {
 
 
     public void run() {
-        logger.info("monitor thread has started");
+        logger.info("synonym monitor thread has started");
         initDictionary();
     }
 
@@ -21,9 +20,9 @@ public class MonitorThread implements Runnable {
      */
     private void initDictionary(){
         try{
-            logger.info("init dict start");
-            DictionaryCore.initial(DefaultConfig.getInstance());
-            logger.info("init dict end");
+            logger.info("init synonym dict start");
+            SynonymWordsDictionary.initial();
+            logger.info("init synonym dict end");
         }catch (Exception e){
             logger.error(e.getMessage(),e);
         }
