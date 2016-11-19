@@ -2,8 +2,6 @@ package com.vmall.analyzer.synonym;
 
 import junit.framework.TestCase;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -11,19 +9,14 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.junit.Test;
-import org.wltea.analyzer.dic.Dictionary;
-import org.wltea.analyzer.dic.DynmicDictinoaryLoader;
-import org.wltea.analyzer.lucene.IKAnalyzer;
+import com.vmall.search.analyzer.lucene.IKAnalyzer;
 
-import java.io.StringReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
