@@ -1,5 +1,6 @@
 package com.vmall.search.analyzer.solr;
 
+import com.vmall.search.analyzer.thread.ThreadManager;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
@@ -49,6 +50,9 @@ public class IKTokenizerFactory  extends TokenizerFactory {
         if(args.get("useFragment") != null ){
             this.useFragment = Boolean.valueOf(args.get("useFragment"));
         }
+
+        logger.info("starting monitor");
+        ThreadManager.work();
 
     }
 
