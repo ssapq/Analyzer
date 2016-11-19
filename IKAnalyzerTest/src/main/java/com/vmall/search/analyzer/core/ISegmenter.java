@@ -25,7 +25,6 @@
 package com.vmall.search.analyzer.core;
 
 
-import com.sun.xml.internal.ws.db.DatabindingImpl;
 import com.vmall.search.analyzer.dic.Dictionary;
 
 /**

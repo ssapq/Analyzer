@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import com.vmall.search.analyzer.dic.Dictionary;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -64,14 +65,14 @@ public class IKQueryExpressionParser {
 	 * @param quickMode 
 	 * @return Lucene query
 	 */
-	public Query parseExp(String expression , boolean quickMode){
+	public Query parseExp(String expression , boolean quickMode, Dictionary dictionary){
 		Query lucenceQuery = null;
 		if(expression != null && !"".equals(expression.trim())){
 			try{
 				//文法解析
 				this.splitElements(expression);
 				//语法解析
-				this.parseSyntax(quickMode);
+				this.parseSyntax(quickMode,dictionary);
 				if(this.querys.size() == 1){
 					lucenceQuery = this.querys.pop();
 				}else{
@@ -360,7 +361,7 @@ public class IKQueryExpressionParser {
 	 * 语法解析
 	 * 
 	 */
-	private void parseSyntax(boolean quickMode){
+	private void parseSyntax(boolean quickMode, Dictionary dictionary){
 		for(int i = 0 ; i < this.elements.size() ; i++){
 			Element e = this.elements.get(i);
 			if('F' == e.type){
@@ -378,7 +379,7 @@ public class IKQueryExpressionParser {
 					}else if(':' == e2.type){
 						String keyword = e3.toString();
 						//SWMCQuery Here
-						Query _SWMCQuery =  SWMCQueryBuilder.create(e.toString(), keyword , quickMode);
+						Query _SWMCQuery =  SWMCQueryBuilder.create(e.toString(), keyword , quickMode,dictionary);
 						this.querys.push(_SWMCQuery);
 					}
 					
@@ -704,13 +705,4 @@ public class IKQueryExpressionParser {
 		}
 	}	
 
-	public static void main(String[] args){
-		IKQueryExpressionParser parser = new IKQueryExpressionParser();
-		//String ikQueryExp = "newsTitle:'的两款《魔兽世界》插件Bigfoot和月光宝盒'";
-		String ikQueryExp = "(id='ABcdRf' && date:{'20010101','20110101'} && keyword:'魔兽中国') || (content:'KSHT-KSH-A001-18'  || ulr='www.ik.com') - name:'林良益'";
-		Query result = parser.parseExp(ikQueryExp , true);
-		System.out.println(result);
-
-	}	
-	
 }

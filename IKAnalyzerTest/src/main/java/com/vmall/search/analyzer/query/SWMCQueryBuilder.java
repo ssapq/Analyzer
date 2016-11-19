@@ -29,6 +29,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vmall.search.analyzer.dic.Dictionary;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -51,12 +52,12 @@ public class SWMCQueryBuilder {
 	 * @param quickMode
 	 * @return Lucene Query
 	 */
-	public static Query create(String fieldName ,String keywords , boolean quickMode){
+	public static Query create(String fieldName ,String keywords , boolean quickMode, Dictionary dictionary){
 		if(fieldName == null || keywords == null){
 			throw new IllegalArgumentException("参数 fieldName 、 keywords 不能为null.");
 		}
 		//1.对keywords进行分词处理
-		List<Lexeme> lexemes = doAnalyze(keywords);
+		List<Lexeme> lexemes = doAnalyze(keywords,dictionary);
 		//2.根据分词结果，生成SWMCQuery
 		Query _SWMCQuery = getSWMCQuery(fieldName , lexemes , quickMode);
 		return _SWMCQuery;
@@ -67,12 +68,12 @@ public class SWMCQueryBuilder {
 	 * @param keywords
 	 * @return
 	 */
-	private static List<Lexeme> doAnalyze(String keywords){
+	private static List<Lexeme> doAnalyze(String keywords, Dictionary dictionary){
 		List<Lexeme> lexemes = new ArrayList<Lexeme>();
 		IKSegmenter ikSeg = new IKSegmenter(new StringReader(keywords) , true);
 		try{
 			Lexeme l = null;
-			while( (l = ikSeg.next()) != null){
+			while( (l = ikSeg.next(dictionary)) != null){
 				lexemes.add(l);
 			}
 		}catch(IOException e){
