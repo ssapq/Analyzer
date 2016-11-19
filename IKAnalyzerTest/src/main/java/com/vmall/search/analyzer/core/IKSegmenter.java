@@ -31,6 +31,7 @@ import java.util.List;
 import com.vmall.search.analyzer.cfg.DefaultConfig;
 import com.vmall.search.analyzer.cfg.Configuration;
 import com.vmall.search.analyzer.dic.Dictionary;
+import com.vmall.search.analyzer.dic.DictionaryCore;
 
 /**
  * IK分词器主类
@@ -97,7 +98,7 @@ public final class IKSegmenter {
 	 */
 	private void init(){
 		//初始化词典单例
-		Dictionary.initial(this.cfg);
+		DictionaryCore.initial(this.cfg);
 		//初始化分词上下文
 		this.context = new AnalyzeContext(this.cfg);
 		//加载子分词器

@@ -55,6 +55,8 @@ public final class IKTokenizer extends Tokenizer {
 	private final TypeAttribute typeAtt;
 	//记录最后一个词元的结束位置
 	private int endPosition;
+	//字典
+	private Dictionary dictionary;
 	
 	/**
 	 * Lucene 4.0 Tokenizer适配器类构造函数
@@ -65,6 +67,7 @@ public final class IKTokenizer extends Tokenizer {
 	    termAtt = addAttribute(CharTermAttribute.class);
 	    typeAtt = addAttribute(TypeAttribute.class);
 		_IKImplement = new IKSegmenter(input , useSmart);
+		dictionary = new Dictionary(useFragment);
 	}
 
 	/* (non-Javadoc)
@@ -74,7 +77,7 @@ public final class IKTokenizer extends Tokenizer {
 	public boolean incrementToken() throws IOException {
 		//清除所有的词元属性
 		clearAttributes();
-		Lexeme nextLexeme = _IKImplement.next();
+		Lexeme nextLexeme = _IKImplement.next(dictionary);
 		if(nextLexeme != null){
 			String lexeme = nextLexeme.getLexemeText();
 
